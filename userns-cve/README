@@ -1,0 +1,5 @@
+You can record this demo running:
+	DEMO_AUTO_RUN=y asciinema rec -c ./demo.sh userns-cve.cast
+
+You can upload it to asciinema or convert to gif using a repo in the asciinema
+org.
