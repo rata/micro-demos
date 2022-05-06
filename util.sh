@@ -27,7 +27,7 @@ function desc() {
 
 function desc_type() {
     maybe_first_prompt
-    rate=25
+    rate=20
     if [ -n "$DEMO_RUN_FAST" ]; then
       rate=1000
     fi
@@ -54,7 +54,7 @@ DEMO_RUN_STDOUT=""
 
 function run() {
     maybe_first_prompt
-    rate=25
+    rate=20
     if [ -n "$DEMO_RUN_FAST" ]; then
       rate=1000
     fi
