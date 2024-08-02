@@ -81,6 +81,36 @@ function run() {
     return $r
 }
 
+# srun is like run, but simpler. The isatty(3) check will return true, so commands that use that to
+# print colored output by default will do it when using srun. The downside of srun is that it
+# doesn't capture the output of the command, as run does, and some commands might try to run
+# interactively.
+# XXX: rata. Do we want to use $* or $1?
+function srun() {
+    maybe_first_prompt
+    rate=25
+    if [ -n "$DEMO_RUN_FAST" ]; then
+      rate=1000
+    fi
+    if [ -n "$DEMO_RUN_SPEED" ]; then
+      rate=$DEMO_RUN_SPEED
+    fi
+    echo "$green$*$reset" | pv -qL $rate
+    if [ -n "$DEMO_RUN_FAST" ]; then
+      sleep 0.5
+    fi
+    # Run the command in an interactive shell, this makes the isatty(3) check return true, so
+    # commands that color the output by default, do it.
+    bash -ic "eval \"$*\""
+    r=$?
+    read -d '' -t "${timeout}" -n 10000 # clear stdin
+    prompt
+    if [ -z "$DEMO_AUTO_RUN" ]; then
+      read -s
+    fi
+    return $r
+}
+
 function relative() {
     for arg; do
         echo "$(realpath $(dirname $(which $0)))/$arg" | sed "s|$(realpath $(pwd))|.|"

@@ -41,4 +41,13 @@ unset DEMO_AUTO_RUN
 desc "The output of the last command is in \$DEMO_RUN_STDOUT if you need it"
 run "date"
 run "echo \"$DEMO_RUN_STDOUT\""
+desc_type "Some command like ls, can color the output with a param"
+run "ls --color /"
+desc "Alternatively, you use srun() instead of run(). The next command is using srun"
+srun ls /
+desc_type "This will color the output if the command does it by default"
+desc_type "and you don't need to quote the command."
+desc_type "But srun() doesn't save the command output"
+desc ""
+run "echo \"This is the last command\""
 desc "At the end it will wait for one last <enter>."
